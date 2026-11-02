@@ -23,4 +23,14 @@ trait Publishable
     {
         return $this->published_at !== null && $this->published_at->lte(now());
     }
+
+    /** Draft (no date), Scheduled (future date) or Published. */
+    public function publicationState(): string
+    {
+        return match (true) {
+            $this->published_at === null => 'Draft',
+            $this->published_at->isFuture() => 'Scheduled',
+            default => 'Published',
+        };
+    }
 }
