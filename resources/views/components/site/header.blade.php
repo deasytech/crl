@@ -10,7 +10,7 @@
 <header class="sticky top-0 z-40 border-b border-ink/10 bg-ivory/95 backdrop-blur">
     <div class="wrap flex items-center justify-between gap-6 py-3">
         <a href="{{ route('home') }}" aria-label="Custom Realities Limited, home" class="shrink-0">
-            <img src="{{ asset('images/logo.png') }}" alt="Custom Realities Limited" class="h-11 w-auto" width="747" height="334">
+            <x-site.picture :src="asset('images/logo-288.png')" :webp="asset('images/logo.webp')" alt="Custom Realities Limited" sizes="96px" priority class="h-11 w-auto" width="288" height="129" />
         </a>
 
         <nav aria-label="Primary" class="hidden items-center gap-9 lg:flex">

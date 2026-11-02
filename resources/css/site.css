@@ -84,6 +84,22 @@
         @apply border-white text-white hover:bg-white hover:text-ink;
     }
 
+    .field-label {
+        @apply mb-2 block text-sm font-semibold;
+    }
+
+    .field {
+        @apply min-h-12 w-full border border-ink/40 bg-white px-4 py-3 text-base text-ink;
+    }
+
+    .field[aria-invalid='true'] {
+        @apply border-crl-dark;
+    }
+
+    .field-error {
+        @apply mt-2 text-sm font-medium text-crl-dark;
+    }
+
     .link-arrow {
         @apply inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em];
     }

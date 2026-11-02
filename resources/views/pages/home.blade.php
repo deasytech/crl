@@ -26,9 +26,9 @@
 
         <figure class="md:col-span-6" data-reveal>
             @if ($introImage)
-                <img src="{{ $introImage }}" alt="{{ $home->intro_image_alt }}" loading="lazy" class="aspect-[4/5] w-full object-cover">
+                <x-site.picture :model="$home" column="intro_image" :src="$introImage" :alt="$home->intro_image_alt ?? ''" sizes="(min-width: 768px) 40vw, 100vw" class="aspect-[4/5] w-full object-cover" />
             @elseif ($introProject)
-                <img src="{{ \App\Support\Media::url($introProject->main_image) }}" alt="{{ $introProject->main_image_alt }}" loading="lazy" class="aspect-[4/5] w-full object-cover">
+                <x-site.picture :model="$introProject" column="main_image" :src="\App\Support\Media::url($introProject->main_image)" :alt="$introProject->main_image_alt ?? ''" sizes="(min-width: 768px) 40vw, 100vw" class="aspect-[4/5] w-full object-cover" />
                 <figcaption class="mt-3 text-xs text-stone-dark">{{ $introProject->title }}@if ($introProject->location), {{ $introProject->location }}@endif @if ($introProject->crl_involvement) · {{ $introProject->crl_involvement }}@endif</figcaption>
             @endif
         </figure>

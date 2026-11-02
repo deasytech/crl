@@ -14,7 +14,7 @@
         ->merge($project->images->map(fn ($image) => ['src' => \App\Support\Media::url($image->path), 'alt' => $image->alt ?? $project->title, 'caption' => $image->caption]))
         ->filter()->values();
 @endphp
-<x-layouts::site :title="$project->seo_title ?? $project->title" :description="$project->seo_description ?? $project->summary">
+<x-layouts::site :title="$project->seo_title ?? $project->title" :description="$project->seo_description ?? $project->summary" :image="$mainUrl" type="article">
     <article>
         <header class="border-b border-ink/10">
             <div class="wrap py-16 md:py-24">
@@ -38,7 +38,7 @@
                 @if ($mainUrl)
                     <figure>
                         <button type="button" data-lightbox="{{ 0 }}" class="block w-full cursor-zoom-in" aria-label="Enlarge photograph of {{ $project->title }}">
-                            <img src="{{ $mainUrl }}" alt="{{ $project->main_image_alt ?? $project->title }}" fetchpriority="high" decoding="async" class="aspect-[4/3] w-full object-cover">
+                            <x-site.picture :model="$project" column="main_image" :src="$mainUrl" :alt="$project->main_image_alt ?? $project->title" sizes="(min-width: 768px) 66vw, 100vw" priority class="aspect-[4/3] w-full object-cover" />
                         </button>
                     </figure>
                 @endif
@@ -59,7 +59,7 @@
                         @foreach ($project->images as $image)
                             <li>
                                 <button type="button" data-lightbox="{{ $loop->index + $offset }}" class="block w-full cursor-zoom-in" aria-label="Enlarge image {{ $loop->iteration }} of {{ $project->images->count() }}">
-                                    <img src="{{ \App\Support\Media::url($image->path) }}" alt="{{ $image->alt ?? $project->title }}" loading="lazy" decoding="async" class="w-full object-cover">
+                                    <x-site.picture :model="$image" column="path" :src="\App\Support\Media::url($image->path)" :alt="$image->alt ?? $project->title" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" class="w-full object-cover" />
                                 </button>
                                 @if ($image->caption)<p class="mt-2 text-sm text-stone-dark">{{ $image->caption }}</p>@endif
                             </li>

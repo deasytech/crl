@@ -75,3 +75,9 @@ if (dialog && typeof dialog.showModal === 'function') {
         if (e.key === 'ArrowRight') show(index + 1);
     });
 }
+
+// Move focus to the form feedback so screen reader and keyboard users land on it.
+document.querySelector('[data-form-errors]')?.focus();
+if (document.querySelector('[role="status"]')?.closest('#enquiry')) {
+    document.getElementById('enquiry').focus();
+}

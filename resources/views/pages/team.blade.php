@@ -13,7 +13,7 @@
                     <div class="grid gap-6 @if ($member->biography) md:grid-cols-12 md:gap-12 @endif">
                         <div class="@if ($member->biography) md:col-span-5 @endif">
                             @if ($portrait)
-                                <img src="{{ $portrait }}" alt="Portrait of {{ $member->name }}" loading="lazy" class="mb-6 aspect-[4/5] w-full max-w-xs object-cover">
+                                <x-site.picture :model="$member" column="portrait" :src="$portrait" :alt="'Portrait of '.$member->name" sizes="20rem" class="mb-6 aspect-[4/5] w-full max-w-xs object-cover" />
                             @endif
                             <h3 class="text-2xl font-semibold">{{ $member->name }}</h3>
                             @if ($member->designation)<p class="mt-2 text-sm font-semibold uppercase tracking-[0.12em] text-crl">{{ $member->designation }}</p>@endif

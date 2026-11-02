@@ -3,18 +3,20 @@
 namespace App\Models;
 
 use App\Enums\TeamGroup;
+use App\Models\Concerns\HasOptimisedImages;
 use App\Models\Concerns\Publishable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
 
 #[Fillable([
     'name', 'slug', 'designation', 'qualifications', 'biography', 'portrait', 'group',
     'professional_category', 'is_featured', 'sort_order', 'admin_notes', 'published_at',
 ])]
-class TeamMember extends Model
+class TeamMember extends Model implements HasMedia
 {
-    use Publishable;
+    use HasOptimisedImages, Publishable;
 
     protected function casts(): array
     {
@@ -34,5 +36,13 @@ class TeamMember extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /** @return array<string, string> */
+    protected function imageColumns(): array
+    {
+        return [
+            'portrait' => 'portrait',
+        ];
     }
 }

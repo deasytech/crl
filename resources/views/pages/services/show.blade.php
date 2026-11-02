@@ -1,5 +1,5 @@
 @php($home = \App\Models\HomepageSetting::current())
-<x-layouts::site :title="$service->seo_title ?? $service->title" :description="$service->seo_description ?? $service->short_description">
+<x-layouts::site :title="$service->seo_title ?? $service->title" :description="$service->seo_description ?? $service->short_description" :image="\App\Support\Media::url($service->image)">
     <x-site.page-header eyebrow="Services" :title="$service->title">
         {{ $service->short_description }}
     </x-site.page-header>
@@ -8,7 +8,7 @@
         <div class="md:col-span-7" data-reveal>
             @if ($service->description)<x-site.prose :text="$service->description" class="text-lg text-ink/80" />@endif
             @if ($service->image)
-                <img src="{{ \App\Support\Media::url($service->image) }}" alt="{{ $service->image_alt }}" loading="lazy" class="mt-12 aspect-[16/10] w-full object-cover">
+                <x-site.picture :model="$service" column="image" :src="\App\Support\Media::url($service->image)" :alt="$service->image_alt ?? ''" sizes="(min-width: 768px) 58vw, 100vw" class="mt-12 aspect-[16/10] w-full object-cover" />
             @endif
         </div>
         @if (! empty($service->capabilities))

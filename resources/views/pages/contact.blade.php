@@ -23,10 +23,80 @@
             @endif
         </dl>
 
-        {{-- Reserved for the enquiry form (Phase 6). No form is shown until it is built and tested. --}}
-        <div class="border-t border-ink/15 pt-8 md:col-span-6 md:col-start-7" id="enquiry">
-            <p class="eyebrow">Enquiries</p>
-            <p class="mt-4 text-lg text-ink/80">For project enquiries, please telephone or email us using the details provided.</p>
+        <div class="border-t border-ink/15 pt-8 md:col-span-6 md:col-start-7" id="enquiry" tabindex="-1">
+            <h2 class="eyebrow">Send an enquiry</h2>
+
+            @if (session('enquiry_sent'))
+                <div role="status" class="mt-6 border-l-4 border-crl bg-white p-6">
+                    <p class="text-lg font-semibold">Thank you. Your enquiry has been received.</p>
+                    <p class="mt-2 text-ink/80">We will review it and get back to you. For anything urgent, please telephone us.</p>
+                </div>
+            @else
+                @if ($errors->any())
+                    <div role="alert" class="mt-6 border-l-4 border-crl-dark bg-white p-6" tabindex="-1" data-form-errors>
+                        <p class="font-semibold">Please correct the following and send again:</p>
+                        <ul class="mt-2 list-disc pl-5 text-sm">
+                            @foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('contact.store') }}" class="mt-8 space-y-6" novalidate>
+                    @csrf
+                    <div class="absolute -left-[9999px]" aria-hidden="true">
+                        <label for="homepage_url">Leave this field empty</label>
+                        <input type="text" id="homepage_url" name="homepage_url" tabindex="-1" autocomplete="off">
+                    </div>
+                    @php($attrs = fn (string $name): string => 'id="'.$name.'" name="'.$name.'" aria-invalid="'.($errors->has($name) ? 'true' : 'false').'"' . ($errors->has($name) ? ' aria-describedby="'.$name.'-error"' : ''))
+
+                    <div>
+                        <label for="name" class="field-label">Full name <span class="text-crl-dark" aria-hidden="true">*</span></label>
+                        <input type="text" class="field" value="{{ old('name') }}" required autocomplete="name" {!! $attrs('name') !!}>
+                        @error('name')<p class="field-error" id="name-error">{{ $message }}</p>@enderror
+                    </div>
+                    <div class="grid gap-6 sm:grid-cols-2">
+                        <div>
+                            <label for="email" class="field-label">Email <span class="text-crl-dark" aria-hidden="true">*</span></label>
+                            <input type="email" class="field" value="{{ old('email') }}" required autocomplete="email" {!! $attrs('email') !!}>
+                            @error('email')<p class="field-error" id="email-error">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
+                            <label for="phone" class="field-label">Telephone</label>
+                            <input type="tel" class="field" value="{{ old('phone') }}" autocomplete="tel" {!! $attrs('phone') !!}>
+                            @error('phone')<p class="field-error" id="phone-error">{{ $message }}</p>@enderror
+                        </div>
+                    </div>
+                    <div>
+                        <label for="organisation" class="field-label">Company or organisation</label>
+                        <input type="text" class="field" value="{{ old('organisation') }}" autocomplete="organization" {!! $attrs('organisation') !!}>
+                        @error('organisation')<p class="field-error" id="organisation-error">{{ $message }}</p>@enderror
+                    </div>
+                    <div class="grid gap-6 sm:grid-cols-2">
+                        <div>
+                            <label for="service" class="field-label">Service required</label>
+                            <select class="field" {!! $attrs('service') !!}>
+                                <option value="">Select a service</option>
+                                @foreach ($services as $option)
+                                    <option value="{{ $option }}" @selected(old('service') === $option)>{{ $option }}</option>
+                                @endforeach
+                            </select>
+                            @error('service')<p class="field-error" id="service-error">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
+                            <label for="project_location" class="field-label">Project location</label>
+                            <input type="text" class="field" value="{{ old('project_location') }}" {!! $attrs('project_location') !!}>
+                            @error('project_location')<p class="field-error" id="project_location-error">{{ $message }}</p>@enderror
+                        </div>
+                    </div>
+                    <div>
+                        <label for="message" class="field-label">Project description <span class="text-crl-dark" aria-hidden="true">*</span></label>
+                        <textarea rows="6" class="field" required {!! $attrs('message') !!}>{{ old('message') }}</textarea>
+                        @error('message')<p class="field-error" id="message-error">{{ $message }}</p>@enderror
+                    </div>
+                    <p class="text-sm text-stone-dark">Fields marked * are required. We use your details only to respond to your enquiry.</p>
+                    <button type="submit" class="btn btn-solid">Send enquiry</button>
+                </form>
+            @endif
         </div>
     </section>
 </x-layouts::site>

@@ -3,7 +3,7 @@
 <a href="{{ route('projects.show', $project) }}" class="group block" data-reveal>
     <div @class(['relative overflow-hidden bg-ink', $ratio])>
         @if ($url)
-            <img src="{{ $url }}" alt="{{ $project->main_image_alt ?? $project->title }}" loading="{{ $priority ? 'eager' : 'lazy' }}" decoding="async" class="size-full object-cover transition-transform duration-700 ease-site group-hover:scale-105">
+            <x-site.picture :model="$project" column="main_image" :src="$url" :alt="$project->main_image_alt ?? $project->title" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" :priority="$priority" class="size-full object-cover transition-transform duration-700 ease-site group-hover:scale-105" />
         @else
             <div class="flex size-full items-end p-6"><span class="text-xl font-semibold text-white/80">{{ $project->title }}</span></div>
         @endif

@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasOptimisedImages;
 use App\Models\Concerns\Publishable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
 
 #[Fillable([
     'title', 'slug', 'short_description', 'description', 'capabilities', 'image', 'image_alt',
     'is_featured', 'sort_order', 'seo_title', 'seo_description', 'published_at',
 ])]
-class Service extends Model
+class Service extends Model implements HasMedia
 {
-    use Publishable;
+    use HasOptimisedImages, Publishable;
 
     protected function casts(): array
     {
@@ -39,5 +41,13 @@ class Service extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /** @return array<string, string> */
+    protected function imageColumns(): array
+    {
+        return [
+            'image' => 'image',
+        ];
     }
 }

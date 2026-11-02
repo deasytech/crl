@@ -4,9 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{{ filled($title ?? null) ? $title.' | '.$site->company_name : $site->company_name.' | Architecture, Construction, Services' }}</title>
-        <meta name="description" content="{{ $description ?? $site->seo_description ?? 'Custom Realities Limited delivers integrated architectural, construction and project management solutions from Port Harcourt, Nigeria.' }}">
-        <link rel="canonical" href="{{ url()->current() }}">
+        @include('partials.seo')
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js')</script>

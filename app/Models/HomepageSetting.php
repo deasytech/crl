@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasOptimisedImages;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
  * @property list<array{title: string, body: string}>|null $highlights
@@ -17,8 +19,10 @@ use Illuminate\Database\Eloquent\Model;
     'closing_heading', 'closing_body', 'closing_cta_label', 'closing_cta_url',
     'highlights', 'approach_steps', 'why_points',
 ])]
-final class HomepageSetting extends Model
+final class HomepageSetting extends Model implements HasMedia
 {
+    use HasOptimisedImages;
+
     protected function casts(): array
     {
         return ['highlights' => 'array', 'approach_steps' => 'array', 'why_points' => 'array'];
@@ -28,5 +32,14 @@ final class HomepageSetting extends Model
     public static function current(): static
     {
         return self::query()->first() ?? new self(['hero_headline' => config('app.name')]);
+    }
+
+    /** @return array<string, string> */
+    protected function imageColumns(): array
+    {
+        return [
+            'hero_image' => 'hero',
+            'intro_image' => 'intro',
+        ];
     }
 }

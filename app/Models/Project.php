@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ProjectStatus;
+use App\Models\Concerns\HasOptimisedImages;
 use App\Models\Concerns\Publishable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,15 +11,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
 
 #[Fillable([
     'project_category_id', 'title', 'slug', 'summary', 'description', 'location',
     'year_label', 'year_start', 'status', 'crl_involvement', 'is_featured', 'sort_order',
     'main_image', 'main_image_alt', 'seo_title', 'seo_description', 'admin_notes', 'published_at',
 ])]
-class Project extends Model
+class Project extends Model implements HasMedia
 {
-    use Publishable, SoftDeletes;
+    use HasOptimisedImages, Publishable, SoftDeletes;
 
     protected function casts(): array
     {
@@ -56,5 +58,13 @@ class Project extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /** @return array<string, string> */
+    protected function imageColumns(): array
+    {
+        return [
+            'main_image' => 'main_image',
+        ];
     }
 }

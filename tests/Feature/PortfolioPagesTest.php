@@ -130,7 +130,7 @@ test('company page shows managed copy and registration', function () {
         ->assertSee('Clients define our reputation.');
 });
 
-test('contact page shows verified details and no form until one exists', function () {
+test('contact page shows verified details alongside the enquiry form', function () {
     SiteSetting::create([
         'company_name' => 'Custom Realities Limited', 'address' => '36 Old Aba Road, Port Harcourt.',
         'office_phone' => '07055981238', 'mobile_phone' => '07030812545', 'primary_email' => 'info@customrealities.com.ng',
@@ -141,5 +141,5 @@ test('contact page shows verified details and no form until one exists', functio
         ->assertSee('36 Old Aba Road')
         ->assertSee('tel:07055981238', false)
         ->assertSee('mailto:info@customrealities.com.ng', false)
-        ->assertDontSee('<form', false);
+        ->assertSee('<form', false);
 });
