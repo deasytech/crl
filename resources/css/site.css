@@ -126,7 +126,31 @@
     transform: none;
 }
 
+/* Two-slide hero crossfade: each slide shows ~7s, no JavaScript needed. */
+.hero-slide {
+    opacity: 0;
+    animation: hero-fade 14s infinite;
+}
+
+.hero-slide:first-child {
+    opacity: 1;
+}
+
+@keyframes hero-fade {
+    0%, 45% { opacity: 1; }
+    50%, 95% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+    .hero-slide {
+        animation: none;
+    }
+
+    .hero-slide:not(:first-child) {
+        display: none;
+    }
+
     html {
         scroll-behavior: auto;
     }
