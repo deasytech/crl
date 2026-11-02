@@ -1,10 +1,16 @@
-<x-layouts::site title="Services">
-    <section class="mx-auto max-w-7xl px-6 py-24">
-        <h1 class="text-4xl font-semibold">Services</h1>
-        <ul class="mt-8 space-y-2">
+@php($home = \App\Models\HomepageSetting::current())
+<x-layouts::site title="Services" description="Architecture, construction, building services and project management from Custom Realities Limited.">
+    <x-site.page-header eyebrow="Services" title="Integrated services across the building lifecycle.">
+        Architecture, construction, building services and project management, delivered by one multidisciplinary practice.
+    </x-site.page-header>
+
+    <section class="wrap py-24 md:py-32">
+        <div class="border-b border-ink/15">
             @foreach ($services as $service)
-                <li><a href="{{ route('services.show', $service) }}">{{ $service->title }}</a></li>
+                <x-site.service-feature :service="$service" :number="$loop->iteration" />
             @endforeach
-        </ul>
+        </div>
     </section>
+
+    <x-site.cta :home="$home" />
 </x-layouts::site>

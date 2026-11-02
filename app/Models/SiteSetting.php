@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 #[Fillable([
     'company_name', 'registration_number', 'tagline', 'footer_text', 'address', 'office_phone',
     'mobile_phone', 'primary_email', 'enquiry_recipient', 'website_url', 'social_links',
-    'vision', 'mission', 'founded_year', 'seo_title', 'seo_description', 'og_image',
+    'vision', 'mission', 'founded_year', 'about_body', 'client_philosophy', 'client_relationships',
+    'team_philosophy', 'technical_expertise', 'seo_title', 'seo_description', 'og_image',
 ])]
 final class SiteSetting extends Model
 {
