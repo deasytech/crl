@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PrivacyController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\ServiceController;
@@ -18,6 +19,7 @@ Route::get('projects', [ProjectController::class, 'index'])->name('projects.inde
 Route::get('projects/{project:slug}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('team', TeamController::class)->name('team');
 Route::get('contact', [ContactController::class, 'show'])->name('contact');
+Route::get('privacy', PrivacyController::class)->name('privacy');
 Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:5,10')->name('contact.store');
 
 Route::get('sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');

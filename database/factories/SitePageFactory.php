@@ -1,0 +1,21 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\SitePage;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<SitePage>
+ */
+class SitePageFactory extends Factory
+{
+    /** @return array<string, mixed> */
+    public function definition(): array
+    {
+        return [
+            'key' => fake()->unique()->slug(2),
+            'title' => fake()->sentence(4),
+        ];
+    }
+}

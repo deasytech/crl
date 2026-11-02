@@ -1,7 +1,10 @@
-@php($home = \App\Models\HomepageSetting::current())
-<x-layouts::site title="Services" description="Architecture, construction, building services and project management from Custom Realities Limited.">
-    <x-site.page-header eyebrow="Services" title="Integrated services across the building lifecycle.">
-        Architecture, construction, building services and project management, delivered by one multidisciplinary practice.
+@php
+    $home = \App\Models\HomepageSetting::current();
+    $page = \App\Models\SitePage::get('services');
+@endphp
+<x-layouts::site :title="$page->seo_title" :description="$page->seo_description">
+    <x-site.page-header :eyebrow="$page->eyebrow" :title="$page->title">
+        {{ $page->intro }}
     </x-site.page-header>
 
     <section class="wrap py-24 md:py-32">

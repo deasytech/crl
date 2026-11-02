@@ -1,5 +1,6 @@
 @php
     $home = \App\Models\HomepageSetting::current();
+    $page = \App\Models\SitePage::get('projects');
     $mainUrl = \App\Support\Media::url($project->main_image);
     $known = $project->status !== \App\Enums\ProjectStatus::Unspecified;
     $facts = array_filter([
@@ -54,7 +55,7 @@
             @php($offset = $mainUrl ? 1 : 0)
             <section class="bg-white py-16 md:py-24" aria-labelledby="gallery-heading">
                 <div class="wrap">
-                    <h2 id="gallery-heading" class="h2">Gallery</h2>
+                    <h2 id="gallery-heading" class="h2">{{ $page->text('gallery_heading') }}</h2>
                     <ul class="mt-10 columns-1 gap-6 sm:columns-2 lg:columns-3 [&>li]:mb-6 [&>li]:break-inside-avoid">
                         @foreach ($project->images as $image)
                             <li>

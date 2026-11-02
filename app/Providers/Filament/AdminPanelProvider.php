@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\CrlOverview;
+use Filament\FontProviders\BunnyFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -11,7 +13,6 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -30,6 +31,11 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->brandName('Custom Realities')
             ->favicon(asset('favicon.svg'))
+            ->font('Manrope', provider: BunnyFontProvider::class)
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->sidebarWidth('14rem')
+            ->collapsibleNavigationGroups()
+            ->maxContentWidth('7xl')
             ->colors([
                 'primary' => Color::hex('#A92F38'),
             ])
@@ -41,7 +47,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
-                FilamentInfoWidget::class,
+                CrlOverview::class,
             ])
             ->middleware([
                 EncryptCookies::class,

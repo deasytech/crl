@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Service;
+use App\Models\SitePage;
 use Illuminate\Http\Response;
 
 class SeoController extends Controller
@@ -12,6 +13,7 @@ class SeoController extends Controller
     public function sitemap(): Response
     {
         $entries = collect(['home', 'company', 'services.index', 'projects.index', 'team', 'contact'])
+            ->when(filled(SitePage::query()->where('key', 'privacy')->value('body')), fn ($names) => $names->push('privacy'))
             ->map(fn (string $name) => ['loc' => route($name), 'lastmod' => null])
             ->concat(Service::published()->get(['slug', 'updated_at'])->map(fn (Service $s) => ['loc' => route('services.show', $s->slug), 'lastmod' => $s->updated_at]))
             ->concat(Project::published()->get(['slug', 'updated_at'])->map(fn (Project $p) => ['loc' => route('projects.show', $p->slug), 'lastmod' => $p->updated_at]));

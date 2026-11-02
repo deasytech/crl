@@ -1,17 +1,20 @@
-@php($site = \App\Models\SiteSetting::current())
-<x-layouts::site title="Contact" description="Contact Custom Realities Limited in Port Harcourt, Nigeria.">
-    <x-site.page-header eyebrow="Contact" title="Have a project in mind?">
-        Let's discuss how our expertise can help bring your vision to life.
+@php
+    $site = \App\Models\SiteSetting::current();
+    $page = \App\Models\SitePage::get('contact');
+@endphp
+<x-layouts::site :title="$page->seo_title" :description="$page->seo_description">
+    <x-site.page-header :eyebrow="$page->eyebrow" :title="$page->title">
+        {{ $page->intro }}
     </x-site.page-header>
 
     <section class="wrap grid gap-16 py-24 md:grid-cols-12 md:py-32">
         <dl class="space-y-10 md:col-span-5">
             @if ($site->address)
-                <div><dt class="eyebrow">Office</dt><dd class="mt-3 text-lg">{{ $site->company_name }}<br>{{ $site->address }}</dd></div>
+                <div><dt class="eyebrow">{{ $page->text('office_label') }}</dt><dd class="mt-3 text-lg">{{ $site->company_name }}<br>{{ $site->address }}</dd></div>
             @endif
             @if ($site->office_phone || $site->mobile_phone)
                 <div>
-                    <dt class="eyebrow">Telephone</dt>
+                    <dt class="eyebrow">{{ $page->text('telephone_label') }}</dt>
                     <dd class="mt-3 space-y-1 text-lg">
                         @if ($site->office_phone)<p><span class="text-stone-dark">Office</span> <a class="font-medium hover:text-crl" href="tel:{{ preg_replace('/\s+/', '', $site->office_phone) }}">{{ $site->office_phone }}</a></p>@endif
                         @if ($site->mobile_phone)<p><span class="text-stone-dark">Mobile</span> <a class="font-medium hover:text-crl" href="tel:{{ preg_replace('/\s+/', '', $site->mobile_phone) }}">{{ $site->mobile_phone }}</a></p>@endif
@@ -19,17 +22,17 @@
                 </div>
             @endif
             @if ($site->primary_email)
-                <div><dt class="eyebrow">Email</dt><dd class="mt-3 text-lg"><a class="font-medium hover:text-crl" href="mailto:{{ $site->primary_email }}">{{ $site->primary_email }}</a></dd></div>
+                <div><dt class="eyebrow">{{ $page->text('email_label') }}</dt><dd class="mt-3 text-lg"><a class="font-medium hover:text-crl" href="mailto:{{ $site->primary_email }}">{{ $site->primary_email }}</a></dd></div>
             @endif
         </dl>
 
         <div class="border-t border-ink/15 pt-8 md:col-span-6 md:col-start-7" id="enquiry" tabindex="-1">
-            <h2 class="eyebrow">Send an enquiry</h2>
+            <h2 class="eyebrow">{{ $page->text('form_heading') }}</h2>
 
             @if (session('enquiry_sent'))
                 <div role="status" class="mt-6 border-l-4 border-crl bg-white p-6">
-                    <p class="text-lg font-semibold">Thank you. Your enquiry has been received.</p>
-                    <p class="mt-2 text-ink/80">We will review it and get back to you. For anything urgent, please telephone us.</p>
+                    <p class="text-lg font-semibold">{{ $page->text('success_title') }}</p>
+                    <p class="mt-2 text-ink/80">{{ $page->text('success_body') }}</p>
                 </div>
             @else
                 @if ($errors->any())
@@ -93,8 +96,8 @@
                         <textarea rows="6" class="field" required {!! $attrs('message') !!}>{{ old('message') }}</textarea>
                         @error('message')<p class="field-error" id="message-error">{{ $message }}</p>@enderror
                     </div>
-                    <p class="text-sm text-stone-dark">Fields marked * are required. We use your details only to respond to your enquiry.</p>
-                    <button type="submit" class="btn btn-solid">Send enquiry</button>
+                    <p class="text-sm text-stone-dark">{{ $page->text('form_note') }}</p>
+                    <button type="submit" class="btn btn-solid">{{ $page->text('submit_label') }}</button>
                 </form>
             @endif
         </div>

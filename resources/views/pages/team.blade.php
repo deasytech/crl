@@ -1,11 +1,14 @@
-@php($home = \App\Models\HomepageSetting::current())
-<x-layouts::site title="Our Team" description="The architects, engineers, surveyors and project managers of Custom Realities Limited, and our affiliate consultants.">
-    <x-site.page-header eyebrow="Our team" title="The professionals behind the work.">
-        Core personnel of Custom Realities Limited, supported by affiliate consultants across the built-environment disciplines.
+@php
+    $home = \App\Models\HomepageSetting::current();
+    $page = \App\Models\SitePage::get('team');
+@endphp
+<x-layouts::site :title="$page->seo_title" :description="$page->seo_description">
+    <x-site.page-header :eyebrow="$page->eyebrow" :title="$page->title">
+        {{ $page->intro }}
     </x-site.page-header>
 
     <section class="wrap py-24 md:py-32" aria-labelledby="core-heading">
-        <h2 id="core-heading" class="h2">Core team</h2>
+        <h2 id="core-heading" class="h2">{{ $page->text('core_heading') }}</h2>
         <div class="mt-14 grid gap-x-12 gap-y-14 md:grid-cols-2">
             @foreach ($core as $member)
                 @php($portrait = \App\Support\Media::url($member->portrait))
@@ -21,7 +24,7 @@
                         </div>
                         @if ($member->biography)
                             <details class="md:col-span-7" @if ($loop->first) open @endif>
-                                <summary class="cursor-pointer text-sm font-semibold uppercase tracking-[0.12em]">Biography</summary>
+                                <summary class="cursor-pointer text-sm font-semibold uppercase tracking-[0.12em]">{{ $page->text('biography_label') }}</summary>
                                 <x-site.prose :text="$member->biography" class="mt-4 text-ink/80" />
                             </details>
                         @endif
@@ -34,7 +37,7 @@
     @if ($affiliates->isNotEmpty())
         <section class="bg-white py-24 md:py-32">
             <div class="wrap">
-                <x-site.section-heading eyebrow="Affiliate consultants" title="Specialist consultants working alongside the core team." />
+                <x-site.section-heading :eyebrow="$page->text('affiliates_eyebrow')" :title="$page->text('affiliates_title')" />
                 <div class="mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
                     @foreach ($affiliates as $category => $members)
                         <div class="border-t border-ink/15 pt-6" data-reveal>

@@ -1,6 +1,9 @@
-@php($home = \App\Models\HomepageSetting::current())
+@php
+    $home = \App\Models\HomepageSetting::current();
+    $page = \App\Models\SitePage::get('services');
+@endphp
 <x-layouts::site :title="$service->seo_title ?? $service->title" :description="$service->seo_description ?? $service->short_description" :image="\App\Support\Media::url($service->image)">
-    <x-site.page-header eyebrow="Services" :title="$service->title">
+    <x-site.page-header :eyebrow="$page->eyebrow" :title="$service->title">
         {{ $service->short_description }}
     </x-site.page-header>
 
@@ -13,7 +16,7 @@
         </div>
         @if (! empty($service->capabilities))
             <aside class="md:col-span-4 md:col-start-9" data-reveal>
-                <p class="eyebrow">Capabilities</p>
+                <p class="eyebrow">{{ $page->text('capabilities_label') }}</p>
                 <ul class="mt-5 divide-y divide-ink/10 border-y border-ink/10">
                     @foreach ($service->capabilities as $capability)
                         <li class="py-4 font-medium">{{ $capability }}</li>
@@ -27,8 +30,8 @@
         <section class="bg-white py-24 md:py-32">
             <div class="wrap">
                 <div class="flex flex-wrap items-end justify-between gap-6">
-                    <x-site.section-heading eyebrow="In practice" :title="'Selected '.\Illuminate\Support\Str::lower($service->title).' projects.'" />
-                    <a href="{{ route('projects.index') }}" class="link-arrow text-crl">All projects</a>
+                    <x-site.section-heading :eyebrow="$page->text('in_practice_eyebrow')" :title="str_replace(':service', \Illuminate\Support\Str::lower($service->title), $page->text('in_practice_title'))" />
+                    <a href="{{ route('projects.index') }}" class="link-arrow text-crl">{{ $page->text('projects_link_label') }}</a>
                 </div>
                 <div class="mt-14 grid gap-10 md:grid-cols-3">
                     @foreach ($projects as $project)
@@ -40,7 +43,7 @@
     @endif
 
     <section class="wrap py-24 md:py-32">
-        <p class="eyebrow">Other services</p>
+        <p class="eyebrow">{{ $page->text('other_services_label') }}</p>
         <div class="mt-8 border-b border-ink/15">
             @foreach ($others as $other)
                 <x-site.service-feature :service="$other" :number="$loop->iteration" />

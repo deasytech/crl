@@ -1,10 +1,12 @@
 @php
+    $labels = \App\Models\SitePage::navLabels();
+    $ctaLabel = \App\Models\SitePage::get('global')->text('cta_label');
     $links = [
-        ['The Company', 'company'],
-        ['Services', 'services.index'],
-        ['Projects', 'projects.index'],
-        ['Our Team', 'team'],
-        ['Contact', 'contact'],
+        [$labels['company'], 'company'],
+        [$labels['services'], 'services.index'],
+        [$labels['projects'], 'projects.index'],
+        [$labels['team'], 'team'],
+        [$labels['contact'], 'contact'],
     ];
 @endphp
 <header class="sticky top-0 z-40 border-b border-ink/10 bg-ivory/95 backdrop-blur">
@@ -17,7 +19,7 @@
             @foreach ($links as [$label, $route])
                 <a href="{{ route($route) }}" @class(['text-sm font-medium transition-colors hover:text-crl', 'text-crl' => request()->routeIs($route.'*')]) @if (request()->routeIs($route.'*')) aria-current="page" @endif>{{ $label }}</a>
             @endforeach
-            <a href="{{ route('contact') }}" class="btn btn-solid !min-h-10 !px-5 !text-xs">Start a Project</a>
+            <a href="{{ route('contact') }}" class="btn btn-solid !min-h-10 !px-5 !text-xs">{{ $ctaLabel }}</a>
         </nav>
 
         <button type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-nav" class="-mr-2 inline-flex size-11 items-center justify-center lg:hidden">
@@ -31,7 +33,7 @@
             @foreach ($links as [$label, $route])
                 <li class="border-b border-ink/10"><a href="{{ route($route) }}" class="block py-5 text-2xl font-semibold">{{ $label }}</a></li>
             @endforeach
-            <li class="pt-8"><a href="{{ route('contact') }}" class="btn btn-solid w-full">Start a Project</a></li>
+            <li class="pt-8"><a href="{{ route('contact') }}" class="btn btn-solid w-full">{{ $ctaLabel }}</a></li>
         </ul>
     </nav>
 </header>
