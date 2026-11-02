@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\ProjectStatus;
+use App\Models\HomepageSetting;
 use App\Models\Project;
 use App\Models\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -36,4 +37,17 @@ test('draft services are hidden', function () {
     $service = Service::create(['title' => 'Hidden', 'slug' => 'hidden']);
 
     $this->get(route('services.show', $service))->assertNotFound();
+});
+
+test('homepage shows featured published projects and hides drafts', function () {
+    Project::create(['title' => 'Featured Live', 'slug' => 'featured-live', 'is_featured' => true, 'published_at' => now()->subDay()]);
+    Project::create(['title' => 'Featured Draft', 'slug' => 'featured-draft', 'is_featured' => true]);
+
+    $this->get(route('home'))->assertOk()->assertSee('Featured Live')->assertDontSee('Featured Draft');
+});
+
+test('homepage renders its hero copy from settings', function () {
+    HomepageSetting::create(['hero_headline' => 'A Tested Headline']);
+
+    $this->get(route('home'))->assertSee('A Tested Headline');
 });

@@ -10,11 +10,19 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/passkeys.js',
+                'resources/css/site.css',
+                'resources/js/site.js',
             ],
             refresh: true,
             fonts: [
                 bunny('Instrument Sans', {
+                    alias: 'app',
                     weights: [400, 500, 600],
+                }),
+                // Public website: a single family keeps font payload small.
+                bunny('Manrope', {
+                    alias: 'site',
+                    weights: [400, 500, 600, 700],
                 }),
             ],
         }),
