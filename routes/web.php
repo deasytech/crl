@@ -7,6 +7,7 @@ use App\Http\Controllers\PrivacyController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\StorageLinkController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,9 @@ Route::get('team', TeamController::class)->name('team');
 Route::get('contact', [ContactController::class, 'show'])->name('contact');
 Route::get('privacy', PrivacyController::class)->name('privacy');
 Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:5,10')->name('contact.store');
+
+// Admin-only helper for hosts without shell access; remove once the link exists on the server.
+Route::get('admin-tools/storage-link', StorageLinkController::class)->middleware('auth')->name('storage-link');
 
 Route::get('sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 
